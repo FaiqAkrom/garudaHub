@@ -8,19 +8,26 @@ use Symfony\Component\HttpFoundation\Response;
 
 class SecurityHeaders
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
-     */
     public function handle(Request $request, Closure $next): Response
     {
         $response = $next($request);
 
-        $response->headers->set('X-Frame-Options', 'SAMEORIGIN');
+        $response->headers->set('X-Frame-Options', 'DENY');
         $response->headers->set('X-Content-Type-Options', 'nosniff');
-        $response->headers->set('X-XSS-Protection', '1; mode=block');
         $response->headers->set('Referrer-Policy', 'strict-origin-when-cross-origin');
+        $response->headers->set('Permissions-Policy', 'geolocation=(), microphone=(), camera=()');
+        $response->headers->set(
+            'Content-Security-Policy',
+            "default-src 'self'; "
+            . "script-src 'self' 'unsafe-inline' 'unsafe-eval'; "
+            . "style-src 'self' 'unsafe-inline' https://fonts.bunny.net; "
+            . "font-src 'self' https://fonts.bunny.net data:; "
+            . "img-src 'self' data:; "
+            . "object-src 'none'; "
+            . "frame-ancestors 'none'; "
+            . "base-uri 'self'; "
+            . "form-action 'self'"
+        );
 
         return $response;
     }
