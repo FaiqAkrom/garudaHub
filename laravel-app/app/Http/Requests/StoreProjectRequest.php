@@ -12,7 +12,7 @@ class StoreProjectRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return $this->user() && $this->user()->role === 'client';
     }
 
     /**
@@ -23,7 +23,11 @@ class StoreProjectRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'category' => 'required|string|max:100',
+            'budget' => 'required|numeric|min:0',
+            'deadline' => 'required|date',
         ];
     }
 }
