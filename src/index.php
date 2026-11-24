@@ -2,6 +2,17 @@
 // Garuda-Hub - lelang proyek IT (PHP 8.1+ native, mysqli). Semua data dummy.
 declare(strict_types=1);
 
+// ===== Security Headers =====
+@ini_set('expose_php', 'off');
+if (function_exists('header_remove')) {
+    header_remove('X-Powered-By');
+}
+header('X-Content-Type-Options: nosniff');
+header('X-Frame-Options: SAMEORIGIN');
+header('Referrer-Policy: strict-origin-when-cross-origin');
+header("Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self' data:; connect-src 'self'; frame-ancestors 'self'; form-action 'self'; base-uri 'self'; object-src 'none';");
+header('Permissions-Policy: camera=(), microphone=(), geolocation=()');
+
 // ===== M1: inti =====
 ini_set('display_errors', '0');
 date_default_timezone_set('Asia/Jakarta');

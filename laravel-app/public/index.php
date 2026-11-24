@@ -1,5 +1,11 @@
 <?php
 
+@ini_set('expose_php', 'off');
+if (function_exists('header_remove')) {
+    header_remove('X-Powered-By');
+}
+header('X-Content-Type-Options: nosniff');
+
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 
